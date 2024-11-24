@@ -1,0 +1,116 @@
+{% include '/includes/cabecera.html' %}
+<main>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-4">
+                <div class="card bg-light mb-2">
+                    <h4 class="card-header">Registrar Tipo</h4>
+                    <div class="card-body">
+                        <!--Registrar tipo requerimiento-->
+                        <form action="/tipoRequerimiento/registrar" method="post">
+                            <div>
+                                <span>Codigo</span>
+                                <input type="text" class="form-control" name="codigo" placeholder="codigo" minlength="3" maxlength="3" required>
+                            </div>
+                            <div>
+                                <span>Tipo</span>
+                                <input type="text" class="form-control" name="tipo" placeholder="Tipo" required>
+                            </div>
+                            <div>
+                                <br>
+                                <button type="submit" class="form-control btn btn-success">Agregar</button>
+                            </div>
+                        </form>
+                        <!--Fin registrar tipo requerimiento-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="buscador" id="buscador" placeholder="Buscar Tipo de Requerimiento">
+                </div>
+                <div>
+                    <!--Tabla de tipos de requerimiento-->
+                    <table class="table table-light mt-2 table-bordered text-center" id="tiposRequerimientos">
+                        <thead>
+                            <tr class="table-info">
+                                <th>Codigo</th>
+                                <th>Tipo</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tipo in tiposrequerimientos %}
+                                <tr>
+                                    <td>{{tipo.codigo}}</td>
+                                    <td>{{tipo.tipo}}</td>
+                                    <td>
+                                        <form action="/tipo/eliminar" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este tipo de requerimiento?');">
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <!-- boton anterior: <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalVer{{tipo.id}}"><i class="fas fa-eye"></i></button> -->
+                                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{tipo.id }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                                    </svg>
+                                                <input type="number" name="id" value="{{tipo.id}}" hidden>
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </form>
+                                    <!-- Modal Ver -->
+                                        <div class="modal fade" id="modalVer{{tipo.id}}" tabindex="-1" aria-labelledby="modalVerLabel{{tipo.id}}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalVerLabel{{tipo.id}}">Tipo de Requerimiento</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="/tipo/modificar" method="post" onsubmit="return confirm('¿Estás seguro de que deseas modificar este tipo de requerimiento?');">
+                                                        <div class="modal-body">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" class="form-control" name="id" value="{{tipo.id}}" hidden>
+                                                                <input type="text" class="form-control" name="codigo" value="{{tipo.codigo}}" placeholder="Codigo">
+                                                                <label for="nombre">Codigo</label>
+                                                            </div>
+                                                            <div class="form-floating mb-3">
+                                                                    <input type="text" class="form-control" name="tipo" value="{{tipo.tipo}}" placeholder="Tipo">
+                                                                <label for="nombre">Tipo</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                            <button type="submit" class="btn btn-info">Modificar</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Fin modal ver-->
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>                        
+                    </table>
+                    <!--Fin tabla de tipos de requerimiento-->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<!--Buscador tipo requerimiento-->
+<script>
+    $(document).ready(function(){
+        $("#buscador").keyup(function(){
+            _this = this;
+            $.each($("#tiposRequerimientos tbody tr"), function() {
+                if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+                    $(this).hide();
+                else
+                    $(this).show();
+            });
+        });
+   });
+</script>
+{% include '/includes/pie.html' %}

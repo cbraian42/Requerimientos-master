@@ -1,0 +1,186 @@
+{% include '/includes/cabecera.html' %}
+<main>
+    <div class="container-fluid" style="height: 100vh;">
+        <div class="row mt-3" style="max-width: 80%; margin: auto;">
+            <div class="col">
+                <div class="card bg-light text-center" style="max-width: 100%;">
+                    <div class="card-header"><h4 class="card-title">CREAR REQUERIMIENTO</h4></div>
+                    <div class="card-body">
+                        <!--Crear requerimiento-->
+                        <form action="/requerimiento/registrar" method="post" enctype="multipart/form-data" onsubmit="return confirm('¿Estás seguro de que deseas enviar este requerimiento?');">
+                            <div class="container">
+                                <div class="row text-center fw-bold">
+                                    <div class="col-6">
+                                        <span>Tipo de Requerimiento</span>
+                                        <select class="form-select" id="tipoSelect" name="idTipo" required>
+                                            <option value="" hidden>Seleccionar tipo</option>
+                                            {% for tipo in tiposRequerimientos %}
+                                                <option value="{{ tipo.id }}">{{ tipo.tipo }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <span>Destinatario</span>
+                                        <select class="form-select " id="resultadoUsuarios" name="idDestinatario">
+                                            <option value="" hidden>Seleccionar opción</option>
+                                            {% for usuario in usuariosInternos %}
+                                                <option value="{{usuario.id}}">{{usuario.nombre}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row text-center fw-bold mt-3">
+                                    <div class="col-6">
+                                        <span>Categoria de Requerimiento</span>
+                                        <select class="form-select" id="categoriaSelect" name="idCategoria" required>
+                                            <option value="None" hidden>Seleccionar categoria</option>
+                                            {% for categoria in categoriasRequerimientos %}
+                                                <option value="{{ categoria.id }}" data-tipo="{{ categoria.idTipo }}">{{ categoria.descripcion }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <span>Ingresar Archivos</span>
+                                        <input type="file" id="archivos" name="archivos" class="form-control" accept=".doc,.docx,.xls,.xlsx,.pdf" multiple>
+                                        <small id="fileHelp" class="form-text text-muted">Se permiten hasta 5 archivos en formatos Word, Excel y PDF.</small>
+                                        <div id="fileWarning" class="text-danger mt-2" style="display: none;"></div>
+                                    </div>
+                                </div>
+                                <div class="row text-center fw-bold mt-3">
+                                    <div class="col-6">
+                                        <span>Prioridad</span>
+                                        <select class="form-select" name="prioridad" required>
+                                            <option hidden>Seleccionar Prioridad</option>
+                                            <option>Urgente</option>
+                                            <option>Alta</option>
+                                            <option>Media</option>
+                                            <option>Baja</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6 text-center fw-bold">
+                                        <span>Vincular con otro Requerimiento</span>
+                                        <select class="form-select" id="resultadoRequerimientos" name="idRequerimiento">
+                                            <option value="" hidden>Seleccionar opción</option>
+                                            {% if tipoEmisor == "Externo" %}
+                                                {% for reqExterno in reqExternos %}
+                                                    {% if idEmisor == reqExterno.idEmisor %}
+                                                        <option value="{{reqExterno.id}}">{{reqExterno.codigo}}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                            {% if tipoEmisor == "Interno" %}
+                                                {% for requerimiento in requerimientos %}
+                                                    <option value="{{requerimiento.id}}">{{requerimiento.codigo}}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <div class="text-center fw-bold">
+                                            <label class="form-label mt-4">Asunto</label>
+                                            <textarea class="form-control" name="asunto" rows="2" maxlength="50" style="height: 88px; resize: none;" placeholder="Asunto.." required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <div class="text-center fw-bold">
+                                            <label class="form-label mt-4">Descripcion</label>
+                                            <textarea class="form-control" name="descripcion" rows="3" maxlength="5000" style="min-height: 88px; max-height: 200px; resize: none;" placeholder="Descripcion.." required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="form-control btn btn-success mt-3">Agregar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!--Fin crear requerimiento-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<!--Para que dependa el tipo de la categoria-->
+<script>
+    document.getElementById('tipoSelect').addEventListener('change', function() {
+        var tipoSeleccionado = this.value;
+        var categorias = document.getElementById('categoriaSelect').options;
+        for (var i = 0; i < categorias.length; i++) {
+            var tipoCategoria = categorias[i].getAttribute('data-tipo');
+            if (tipoCategoria === tipoSeleccionado) {
+                categorias[i].style.display = 'block';
+            } else {
+                categorias[i].style.display = 'none';
+            }
+        }
+        document.getElementById('categoriaSelect').value = "";
+    });
+</script>
+<!-- Función de búsqueda con jQuery para usuarios destinatarios-->
+<script>
+    $(document).ready(function(){
+        $('#buscadorUsuarios').on('keyup', function() {
+            var inputValue = $(this).val().toLowerCase();
+            $('#resultadoUsuarios option').each(function() {
+                var optionText = $(this).text().toLowerCase();
+                if (optionText.includes(inputValue)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+</script>
+<!--Busqueda para enlace de requerimientos-->
+<script>
+    $(document).ready(function(){
+        $('#buscadorRequerimientos').on('keyup', function() {
+            var inputValue = $(this).val().toLowerCase();
+            $('#resultadoRequerimientos option').each(function() {
+                var optionText = $(this).text().toLowerCase();
+                if (optionText.includes(inputValue)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+</script>
+<!--Subidad de imagenes-->
+<script>
+    $(document).ready(function() {
+        $('#archivos').on('change', function() {
+            const archivos = $(this).get(0).files;
+            const fileWarning = $('#fileWarning');
+            fileWarning.hide();
+            if (archivos.length > 5) {
+                fileWarning.text("Solo se permiten hasta 5 archivos.").show();
+                $(this).val('');
+                return;
+            }
+            let valid = true;
+            $.each(archivos, function(index, archivo) {
+                const extension = archivo.name.split('.').pop().toLowerCase();
+                if (!['doc', 'docx', 'xls', 'xlsx', 'pdf'].includes(extension)) {
+                    valid = false;
+                    return false;
+                }
+            });
+            if (!valid) {
+                fileWarning.text("Formato de archivo no válido. Solo se permiten archivos Word, Excel y PDF.").show();
+                $(this).val('');
+            }
+        });
+    });
+</script>
+{% include '/includes/pie.html' %}

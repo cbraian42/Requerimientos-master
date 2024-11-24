@@ -1,0 +1,61 @@
+{% include '/includes/cabeceraAuth.html'%}
+<main>
+    <div class="d-flex justify-content-center align-items-center vh-100 ">
+        <div class="container">
+            <div class="row h-100">
+                <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+                    <div class="d-table-cell align-middle">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="m-sm-4">
+                                    <form action="/cambiarContraseña/modificar" method="post" onsubmit="return confirm('¿Estás seguro de que deseas modificar la contraseña?');">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Usuario</label>
+                                                        <input class="form-control form-control-lg" type="text" name="usuario" value="{{usuario}}" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-group">
+                                                        <label>Contraseña</label>
+                                                        <input class="form-control form-control-lg" type="password" name="contrasena" placeholder="Ingrese su contraseña actual" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label>Nueva Contraseña</label>
+                                                    <input class="form-control form-control-lg" type="password" name="contrasenaNueva" placeholder="Ingrese su nueva contraseña" required>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label>Nueva contraseña</label>
+                                                        <input class="form-control form-control-lg" type="password" name="contrasenaNueva2" placeholder="Vuelva a ingresar su nueva contraseña" required >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-3">
+                                          <button type="submit" class="btn btn-lg btn-primary mb-3" onclick="confirmarEliminar()">Cambiar contraseña</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+               
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    function confirmarEliminar(id) {
+        if (confirm('¿Estás seguro de que deseas modificar la contraseña?')) {
+        } else {
+            console.log('modificacion cancelada');
+        }
+    }
+</script>
+{% include '/includes/pieAuth.html'%}

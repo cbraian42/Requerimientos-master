@@ -1,0 +1,392 @@
+{% include '/includes/cabecera.html' %}
+<main>
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col">
+                <input class="form-control" type="text" id="buscador" placeholder="Escribe para buscar un requerimiento..">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <!--Filtros para tabla-->
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="tipoFiltro">Tipo:</label>
+                    <select class="form-control" id="tipoFiltro">
+                        <option value="">Todos los Tipos</option>
+                        {% for tipoRequerimiento in tiposRequerimientos %}
+                            <option value="{{ tipoRequerimiento.tipo }}">{{ tipoRequerimiento.tipo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="categoriaFiltro">Categoría:</label>
+                    <select class="form-control" id="categoriaFiltro">
+                        <option value="">Todas las Categorías</option>
+                        {% for catRequerimiento in catRequerimientos %}
+                            <option value="{{ catRequerimiento.descripcion }}" data-tipo="{{ catRequerimiento.tipo }}">{{ catRequerimiento.descripcion }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="estadoFiltro">Estado:</label>
+                    <select class="form-control" id="estadoFiltro">
+                        <option value="">Todos los Estados</option>
+                        <option value="Abierto">Abierto</option>
+                        <option value="Cerrado">Cerrado</option>
+                    </select>
+                </div>
+            </div>
+            <!--Fin filtros para tabla-->
+        </div>
+
+        <div class="row mt-2">
+            <div class="col">
+                <!--Tabla de solicitudes-->
+                <table class="table table-bordered text-center" id="solicitudes">
+                    <thead>
+                        <tr class="table-light">
+                            <th>Código</th>
+                            <th>Prioridad</th>
+                            <th>Tipo</th>
+                            <th>Categoría</th>
+                            <th>Fecha de alta</th>
+                            <th>Estado</th>
+                            <th>Asunto</th>
+                            <th>Propietario</th>
+                            <th>Tipo Propietario</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for requerimiento in requerimientos %}
+                            <tr>
+                                <td>{{ requerimiento.codigo }}</td>
+                                <td>{{ requerimiento.prioridad }}</td>
+                                <td>
+                                    {% for tipoRequerimiento in tiposRequerimientos %}
+                                        {% if tipoRequerimiento.id == requerimiento.idTipoRequerimiento %}
+                                            {{ tipoRequerimiento.tipo }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for catRequerimiento in catRequerimientos %}
+                                        {% if catRequerimiento.id == requerimiento.idCategoriaRequerimiento %}
+                                            {{ catRequerimiento.descripcion }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ requerimiento.fechaYhora }}</td>
+                                <td>{{ requerimiento.estado }}</td>
+                                <td>{{ requerimiento.asunto }}</td>
+                                <td>
+                                    {% if requerimiento.tipoEmisor == "Interno" %}
+                                        {% for interno in internos %}
+                                            {% if interno.id == requerimiento.idEmisor %}
+                                                {{ interno.nombre }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for externo in externos %}
+                                            {% if externo.id == requerimiento.idEmisor %}
+                                                {{ externo.nombre }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                                <td>{{ requerimiento.tipoEmisor }}</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{ requerimiento.id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                            </svg>
+                                        </button>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEventos{{ requerimiento.id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                                                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                                                <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                             <!-- Modal Ver -->
+                             <div class="modal fade" id="modalVer{{ requerimiento.id }}" tabindex="-1" aria-labelledby="modalVerLabel{{ requerimiento.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalVerLabel{{ requerimiento.id }}">Detalle del Requerimiento</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h6>Código:<span style="color: rgb(94, 94, 94);"> {{ requerimiento.codigo }}</span></h6>
+                                            <h6>Tipo: {% for tipoRequerimiento in tiposRequerimientos %}
+                                                {% if tipoRequerimiento.id == requerimiento.idTipoRequerimiento %}
+                                                    <span style="color: rgb(94, 94, 94);"> {{ tipoRequerimiento.tipo }}</span>
+                                                {% endif %}
+                                            {% endfor %}</h6>
+                                            <h6>Categoría: {% for catRequerimiento in catRequerimientos %}
+                                                {% if catRequerimiento.id == requerimiento.idCategoriaRequerimiento %}
+                                                <span style="color: rgb(94, 94, 94);"> {{ catRequerimiento.descripcion }}</span>
+                                                {% endif %}
+                                            {% endfor %}</h6>
+                                            <h6>Estado:<span style="color: rgb(94, 94, 94);"> {{ requerimiento.estado }}</span></h6>
+                                            <h6>Prioridad:<span style="color: rgb(94, 94, 94);"> {{ requerimiento.prioridad }}</span></h6>
+                                            <h6>Usuario Propietario: {% set usuario_encontrado = False %}
+                                                {% if requerimiento.tipoEmisor == "Interno" %}
+                                                    {% for interno in internos %}
+                                                        {% if interno.id == requerimiento.idEmisor %}
+                                                        <span style="color: rgb(94, 94, 94);">{{ interno.nombre }}</span>
+                                                            {% set usuario_encontrado = True %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                                {% if requerimiento.tipoEmisor == "Externo" %}
+                                                    {% for externo in externos %}
+                                                        {% if externo.id == requerimiento.idEmisor %}
+                                                        <span style="color: rgb(94, 94, 94);">{{ externo.nombre }}</span>
+                                                            {% set usuario_encontrado = True %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </h6>
+                                            <h6>Destinatario: {% set usuario_encontrado = False %}
+                                                {% for interno in internos %}
+                                                    {% if interno.id == requerimiento.idDestinatario %}
+                                                    <span style="color: rgb(94, 94, 94);">{{ interno.nombre }}</span>
+                                                        {% set usuario_encontrado = True %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </h6>
+                                            <h6>Fecha y Hora de Alta:<span style="color: rgb(94, 94, 94);"> {{ requerimiento.fechaYhora }}</span></h6>
+                                            <h6>Asunto:<span style="color: rgb(94, 94, 94);">{{ requerimiento.asunto }}</span></h6>
+                                            <h6>Descripción: <span style="color: rgb(94, 94, 94);">{{ requerimiento.descripcion }}</span></h6>
+                                            <h6>Archivos Adjuntos:</h6>
+                                            <ul id="listaArchivosAdjuntos">
+                                                {% for archivo in requerimiento.archivos %}
+                                                    <li>
+                                                        <a href="{{ url_for('static', filename='img/archivos/' + archivo.nombre) }}" target="_blank">
+                                                            {{ archivo.nombre.split('_', 1)[1] }}  <!-- Quita la parte antes del primer '_' -->
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                            <h6>Comentarios:</h6>
+                                            <div class="comentarios-container" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+                                                <div class="list-group" id="comentariosContainer">
+                                                    {% for comentario in comentarios %}
+                                                        {% if comentario.idRequerimiento == requerimiento.id %}
+                                                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                            <div class="d-flex w-100 justify-content-between">
+                                                                <h5 class="mb-1">{{ comentario.asunto }}</h5>
+                                                                <small class="text-muted">{{ comentario.fechaYhora.strftime('%Y-%m-%d %H:%M') }}</small>
+                                                            </div>
+                                                            <p class="mb-1">{{ comentario.descripcion }}</p>
+                                                            <small class="text-muted">Enviado por:
+                                                                {% if comentario.tipoUsuario == "Interno" %}
+                                                                    {% for interno in internos %}
+                                                                        {% if interno.id == comentario.idUsuarioEmisor %}
+                                                                            {{ interno.nombre }}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                                {% if comentario.tipoUsuario == "Externo" %}
+                                                                    {% for externo in externos %}
+                                                                        {% if externo.id == comentario.idUsuarioEmisor %}
+                                                                            {{ externo.nombre }}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            </small>
+                                                        </a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div class="input-container">
+                                                <form action="/comentario/registrar" method="POST">
+                                                    <div class="mb-3">
+                                                        <input type="number" name="idRequerimiento" value="{{requerimiento.id}}" hidden>
+                                                        <label for="asunto" class="form-label">Asunto</label>
+                                                        <input type="text" class="form-control" id="asunto" name="asunto" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="descripcion" class="form-label">Descripción</label>
+                                                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                                                    </div>
+                                                    <input type="text" value="solicitudesAcargo" name="ubicacion" hidden>
+                                                    <button type="submit" class="btn btn-primary">Agregar Comentario</button>
+                                                </form>
+                                            </div>
+                                            <div id="comentariosContainer"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Fin modal ver-->
+                            <!-- Modal Eventos -->
+                            <div class="modal fade" id="modalEventos{{ requerimiento.id }}" tabindex="-1" aria-labelledby="modalEventosLabel{{ requerimiento.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="max-height: 1000px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalEventosLabel">Eventos</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="accordion" id="accordionEventos">
+                                                {% for evento in eventos %}
+                                                    {% if evento.idRequerimiento == requerimiento.id %}
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="heading{{ loop.index }}">
+                                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">{{ evento.accion }} | {{ evento.fechaYhora.strftime('%Y-%m-%d %H:%M') }}</button>
+                                                            </h2>
+                                                            <div id="collapse{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ loop.index }}" data-bs-parent="#accordionEventos">
+                                                                <div class="accordion-body">
+                                                                    <!--ALTA DE REQUERIMIENTO-->
+                                                                    {% if evento.accion == "Alta de Requerimiento" %}
+                                                                        <p>Fecha: {{ evento.fechaYhora.strftime('%Y-%m-%d %H:%M') }}</p>
+                                                                    <!--EMISION DE COMENTARIO-->
+                                                                    {% elif evento.accion == "Emisión de Respuesta" %}
+                                                                        <h6>Comentario:</h6>
+                                                                        <div class="comentarios-container" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+                                                                            <div class="list-group" id="comentariosContainer">
+                                                                                {% for comentario in comentarios %}
+                                                                                    {% if comentario.idRequerimiento == requerimiento.id %}
+                                                                                        {% if comentario.fechaYhora == evento.fechaYhora %}
+                                                                                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                                                <div class="d-flex w-100 justify-content-between">
+                                                                                                    <h5 class="mb-1">{{ comentario.asunto }}</h5>
+                                                                                                    <small class="text-muted">{{ comentario.fechaYhora.strftime('%Y-%m-%d %H:%M') }}</small>
+                                                                                                </div>
+                                                                                                <p class="mb-1">{{ comentario.descripcion }}</p>
+                                                                                                <small class="text-muted">Enviado por: 
+                                                                                                    {% if comentario.tipoUsuario == "Interno" %}
+                                                                                                        {% for interno in internos %}
+                                                                                                            {% if interno.id == comentario.idUsuarioEmisor %}
+                                                                                                                {{ interno.nombre }}
+                                                                                                            {% endif %}
+                                                                                                        {% endfor %}
+                                                                                                    {% endif %}
+                                                                                                    {% if comentario.tipoUsuario == "Externo" %}
+                                                                                                        {% for externo in externos %}
+                                                                                                            {% if externo.id == comentario.idUsuarioEmisor %}
+                                                                                                                {{ externo.nombre }}
+                                                                                                            {% endif %}
+                                                                                                        {% endfor %}
+                                                                                                    {% endif %}
+                                                                                                </small>
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                        </div>
+                                                                        <form action="/comentario/registrar" method="POST">
+                                                                            <div class="mb-3">
+                                                                                <input type="number" name="idRequerimiento" value="{{requerimiento.id}}" hidden>
+                                                                                <label for="asunto" class="form-label">Asunto</label>
+                                                                                <input type="text" class="form-control" id="asunto" name="asunto" required>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="descripcion" class="form-label">Descripción</label>
+                                                                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                                                                            </div>
+                                                                            <button type="submit" class="btn btn-primary">Agregar Comentario</button>
+                                                                        </form>
+                                                                    <!--ASIGNACION DE DESTINATARIO-->
+                                                                    {% elif evento.accion == "Asignacion de Caso" %}
+                                                                        {% for interno in internos %}
+                                                                            {% if interno.id == requerimiento.idDestinatario %}
+                                                                                <p>Asignado a: {{ interno.nombre }}</p>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    <!--CIERRE DE CASO-->
+                                                                    {% elif evento.accion == "Cierre de Caso" %}
+                                                                        <p>Fecha y Hora de Cierre: {{ evento.fechaYhora.strftime('%Y-%m-%d %H:%M') }}</p>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Fin modal eventos-->
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <!--Fin tabla de solicitudes-->
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    //Buscador de Solicitudes
+    $(document).ready(function() {
+        $('#buscador').on('keyup', function() {
+            var inputValue = $(this).val().toLowerCase();
+            $('#solicitudes tbody tr').each(function() {
+                var rowText = $(this).text().toLowerCase();
+                if (rowText.includes(inputValue)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
+        // Actualiza las categorías disponibles en función del tipo seleccionado
+        $('#tipoFiltro').on('change', function() {
+            var tipoSeleccionado = $(this).val();
+            
+            $('#categoriaFiltro option').each(function() {
+                var tipoCategoria = $(this).data('tipo');
+                if (tipoCategoria === tipoSeleccionado || tipoSeleccionado === "") {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+
+            // Restablecer el valor del select de categoría
+            $('#categoriaFiltro').val('');
+            filtrarTabla();  // Actualiza la tabla al cambiar el tipo
+        });
+
+        // Filtrar la tabla
+        function filtrarTabla() {
+            var tipoFiltro = $('#tipoFiltro').val().toLowerCase();
+            var categoriaFiltro = $('#categoriaFiltro').val().toLowerCase();
+            var estadoFiltro = $('#estadoFiltro').val().toLowerCase();
+
+            $('#solicitudes tbody tr').filter(function() {
+                $(this).toggle(
+                    ($(this).find('td:nth-child(3)').text().toLowerCase().indexOf(tipoFiltro) > -1 || tipoFiltro === "") &&
+                    ($(this).find('td:nth-child(4)').text().toLowerCase().indexOf(categoriaFiltro) > -1 || categoriaFiltro === "") &&
+                    ($(this).find('td:nth-child(6)').text().toLowerCase().indexOf(estadoFiltro) > -1 || estadoFiltro === "")
+                );
+            });
+        }
+
+        // Evento de cambio en los selectores
+        $('#categoriaFiltro, #estadoFiltro').on('change', filtrarTabla);
+    });
+</script>
+{% include '/includes/pie.html' %}

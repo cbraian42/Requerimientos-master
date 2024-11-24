@@ -1,0 +1,128 @@
+{% include '/includes/cabecera.html' %}
+<main>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-4">
+                <div class="card bg-light mb-2">
+                    <h4 class="card-header">Registrar Categoria</h4>
+                    <div class="card-body">
+                        <!--Registrar Categoria-->
+                        <form action="/categoriaRequerimiento/registrar" method="post">
+                            <div>
+                                <span>Tipo</span>
+                                <select class="form-control" name="idTipo">
+                                    <option hidden>Seleccionar tipo</option>
+                                    {% for tipo in tiposRequerimientos %}
+                                        <option value="{{tipo.id}}">{{tipo.tipo}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <span>Descripcion</span>
+                                <input type="text" class="form-control" name="descripcion" placeholder="Descripcion">
+                            </div>
+                            <div>
+                                <br>
+                                <button type="submit" class="form-control btn btn-success">Agregar</button>
+                            </div>
+                        </form>
+                        <!--Fin registrar Categoria-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="buscador" id="buscador" placeholder="Buscar Tipo de Requerimiento">
+                </div>
+                <div>
+                    <!--Tabla de categorias-->
+                    <table class="table table-light mt-2 table-bordered text-center" id="usuarios">
+                        <thead>
+                            <tr class="table-info">
+                                <th>Codigo</th>
+                                <th>Tipo</th>
+                                <th>Descripcion</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for categoria in categoriasRequerimientos %}
+                            <tr>
+                                <td>{{categoria.id}}</td>
+                                {% for tipo in tiposRequerimientos %}
+                                    {% if tipo.id == categoria.idTipo %}
+                                        <td>{{tipo.tipo}}</td>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>{{categoria.descripcion}}</td>
+                                <td>
+                                    <form action="/categoria/eliminar" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta categoría?');">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <!-- Modals -->
+                                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{categoria.id}}"><i class="fas fa-eye"></i></button>
+                                            <input type="number" name="id" value="{{categoria.id}}" hidden>
+                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </form>
+                        
+                                <!-- Modal Ver -->
+                                    <div class="modal fade" id="modalVer{{categoria.id}}" tabindex="-1" aria-labelledby="modalVerLabel{{categoria.id}}" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalVerLabel{{categoria.id}}">Categoria de Requerimiento</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="/categoria/modificar" method="post" onsubmit="return confirm('¿Estás seguro de que deseas modificar esta categoría?');">
+                                                    <div class="modal-body">
+                                                        <div class="form-floating mb-3">
+                                                            {% for tipo in tiposRequerimientos %}
+                                                                {% if tipo.id == categoria.idTipo %}
+                                                                    <input type="text" class="form-control" name="tipo" value="{{tipo.tipo}}" placeholder="Tipo" disabled>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            <label for="nombre">Tipo</label>
+                                                        </div>
+                                                        <div class="form-floating">
+                                                            <input type="number" name="id" value="{{categoria.id}}" hidden>
+                                                            <input type="text" class="form-control" name="descripcion" placeholder="Descripcion" value="{{categoria.descripcion}}">
+                                                            <label for="usuario">Descripcion</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                        <button type="submit" class="btn btn-warning">Modificar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!--Fin modal ver-->
+                            </tr>
+                            {% endfor %}
+                        </tbody>                        
+                    </table>
+                    <!--Fin tabla de categorias-->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<!--Buscador de categorias-->
+<script>
+    $(document).ready(function(){
+        $("#buscador").keyup(function(){
+            _this = this;
+            $.each($("#usuarios tbody tr"), function() {
+                if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+                    $(this).hide();
+                else
+                    $(this).show();
+            });
+        });
+    });
+</script>
+{% include '/includes/pie.html' %}
