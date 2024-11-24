@@ -56,7 +56,7 @@ def registrarRequerimiento():
     idCategoriaRequerimiento = request.form.get('idCategoria')
     idDestinatario = request.form.get('idDestinatario')
     if idDestinatario == '':
-        idDestinatario = None
+        idDestinatario=0
     prioridad = request.form.get('prioridad')
 
     # Determino el estado del requerimiento
