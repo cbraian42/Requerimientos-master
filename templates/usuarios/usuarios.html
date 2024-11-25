@@ -231,7 +231,7 @@
                                         <div class="container">
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <button type="button" class="btn btn-danger" data-externo-id="{{externo.id}}" style="width: 140px;" onclick="confirmarEliminar({externo.id})">Eliminar</button>
+                                                    <button type="button" class="btn btn-danger" data-externo-id="{{externo.id}}" style="width: 140px;" onclick="confirmarEliminar({{externo.id}})">Eliminar</button>
                                                     <button type="submit" class="btn btn-success" style="width: 140px;">Modificar</button>
                                                 </div>
                                                 <div class="col-6">
@@ -300,17 +300,15 @@
     });
 </script>
 
-<!-- Confirmar eliminación de interno con JavaScript -->
 <script>
-    function confirmarEliminar(id) {
-        if (confirm('¿Estás seguro de que deseas eliminar este interno?')) {
-            // Aquí puedes agregar la lógica para eliminar el interno
-            // Por ejemplo, redirigir a una URL de eliminación o enviar una solicitud AJAX
-            // window.location.href = '/ruta/a/eliminar/' + id; // Ejemplo de redirección
-            console.log('Se eliminará el interno con ID:', id); // Solo para depuración
-        } else {
-            console.log('Eliminación cancelada');
+    // Confirmación de eliminación de usuario
+    function confirmarEliminar(usuarioId) {
+        let confirmacion = confirm('¿Estás seguro de eliminar este usuario?');
+        if (confirmacion) {
+            // Realizar la eliminación de acuerdo al ID de usuario
+            // Por ejemplo, enviar una solicitud a tu backend
+            alert("Usuario con ID " + usuarioId + " eliminado.");
         }
     }
-</script>
+    </script>
 {% include '/includes/pie.html' %}
