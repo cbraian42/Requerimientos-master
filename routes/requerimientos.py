@@ -300,7 +300,7 @@ def asignacionSolici():
     ubicacion = "Requerimiento"
     nombre = session.get('user_nombre')
     tipoUsuario = session.get('user_tipo')
-    requerimientos = Requerimiento.query.filter(Requerimiento.idDestinatario == None).all()
+    requerimientos = Requerimiento.query.filter(Requerimiento.idDestinatario == 0).all()
     tiposRequerimientos = TipoRequerimiento.query.all()
     catRequerimientos = CategoriaRequerimiento.query.all()
     internos = UsuarioInterno.query.all()

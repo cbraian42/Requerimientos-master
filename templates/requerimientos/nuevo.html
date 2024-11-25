@@ -50,11 +50,11 @@
                                     <div class="col-6">
                                         <span>Prioridad</span>
                                         <select class="form-select" name="prioridad" required>
-                                            <option hidden>Seleccionar Prioridad</option>
-                                            <option>Urgente</option>
-                                            <option>Alta</option>
-                                            <option>Media</option>
-                                            <option>Baja</option>
+                                            <option value="" hidden disabled selected>Seleccionar Prioridad</option>
+                                            <option value="Urgente">Urgente</option>
+                                            <option value="Alta">Alta</option>
+                                            <option value="Media">Media</option>
+                                            <option value="Baja">Baja</option>
                                         </select>
                                     </div>
                                     <div class="col-6 text-center fw-bold">
@@ -98,7 +98,7 @@
                                         <button type="button" class="form-control btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#confirmationModal">Agregar</button>
                                     </div>
                                 </div>
-                                 <!-- Modal de confirmación -->
+                                <!-- Modal de confirmación -->
                                 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -214,7 +214,13 @@
 
     // Enviar el formulario cuando se haga clic en "Confirmar"
     confirmSubmit.addEventListener('click', function () {
-        formRequerimiento.submit();
+        // Validar el formulario antes de enviarlo
+        if (formRequerimiento.checkValidity()) {
+            formRequerimiento.submit();
+        } else {
+            // Si hay errores, mostrar la validación de HTML5
+            formRequerimiento.reportValidity();
+        }
     });
 });
 </script>

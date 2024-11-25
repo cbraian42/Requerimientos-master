@@ -112,7 +112,7 @@
                                             <div class="row">
                                                 <div class="col-6">
                                                     <button type="button" class="btn btn-danger" data-interno-id="{{interno.id}}" style="width: 140px;" onclick="confirmarEliminar({interno.id})">Eliminar</button>
-                                                    <button type="submit" class="btn btn-warning" style="width: 140px;">Modificar</button>
+                                                    <button type="submit" class="btn btn-success" style="width: 140px;">Modificar</button>
                                                 </div>
                                                 <div class="col-6">
                                                     <div style="text-align: right;">
@@ -158,6 +158,8 @@
                                 <form action="/externo/modificar" method="post" id="externoForm{{externo.id}}" onsubmit="return confirm('¿Deseas modificar este usuario?');">
                                     <div class="modal-body">
                                         <input type="number" name="id" value="{{externo.id}}" hidden>
+                                        <input type="text" name="tipoUsuario" value="externo" hidden>
+
                                         <div class="container">
                                             <div class="row mt-1">
                                                 <div class="col-6">
@@ -230,7 +232,7 @@
                                             <div class="row">
                                                 <div class="col-6">
                                                     <button type="button" class="btn btn-danger" data-interno-id="{{externo.id}}" style="width: 140px;">Eliminar</button>
-                                                    <button type="submit" class="btn btn-warning" style="width: 140px;">Modificar</button>
+                                                    <button type="submit" class="btn btn-success" style="width: 140px;">Modificar</button>
                                                 </div>
                                                 <div class="col-6">
                                                     <div style="text-align: right;">
