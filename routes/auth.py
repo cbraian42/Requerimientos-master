@@ -81,10 +81,7 @@ def cambiarContraseñaModificar():
 
 @auth.route('/logout')
 def logout():
-    # Eliminar datos específicos de la sesión
-    session.pop('user_id', None)
-    session.pop('user_tipo', None)
-    # O limpiar toda la sesión
+    # limpiar toda la sesión
     session.clear()
 
     # Redirigir a la página de inicio o login

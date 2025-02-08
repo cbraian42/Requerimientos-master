@@ -144,7 +144,22 @@
                                                                 <small class="text-muted">{{ comentario.fechaYhora.strftime('%Y-%m-%d %H:%M') }}</small>
                                                             </div>
                                                             <p class="mb-1">{{ comentario.descripcion }}</p>
-                                                            <small class="text-muted">Enviado por: 
+                                                            <small class="text-muted">Enviado por:
+                                                                {% if comentario.tipoUsuario == "Externo" %} 
+                                                                    {% for externo in externos %}
+                                                                        {% if externo.id == comentario.idUsuarioEmisor %}
+                                                                            {{ externo.nombre }}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                                {% if comentario.tipoUsuario == "Interno" %} 
+                                                                    {% for interno in internos %}
+                                                                        {% if interno.id == comentario.idUsuarioEmisor %}
+                                                                            {{ interno.nombre }}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                                <!--
                                                                 {% for interno in internos %}
                                                                     {% if interno.id == comentario.idUsuarioEmisor %}
                                                                         {{ interno.nombre }}
@@ -154,7 +169,7 @@
                                                                     {% if externo.id == comentario.idUsuarioEmisor %}
                                                                         {{ externo.nombre }}
                                                                     {% endif %}
-                                                                {% endfor %}
+                                                                {% endfor %}-->
                                                             </small>
                                                         </a>
                                                         {% endif %}
