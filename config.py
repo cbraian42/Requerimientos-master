@@ -5,6 +5,6 @@ class Seguridad:
 
 class Config (Seguridad):
     # Heredo de la clase Seguridad
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://postgres:admin@localhost/requerimientos')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://postgres:milanesa@localhost/requerimientos')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

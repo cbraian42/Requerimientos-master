@@ -1,4 +1,5 @@
 {% include '/includes/cabecera.html' %}
+
 <main>
     <div class="container-fluid" style="height: 100vh;">
         <div class="row mt-3" style="max-width: 80%; margin: auto;">
@@ -9,9 +10,51 @@
                         <!--Crear requerimiento-->
                         <form id="formRequerimiento" action="/requerimiento/registrar" method="post" enctype="multipart/form-data">
                             <div class="container">
-                                <div class="row text-center fw-bold">
+                                <style>
+                                    
+                                    span, .form-label, .obligatorio{
+                                        display: flex;
+                                        text-align: left;
+                                        margin: 3px;
+                                    }
+                                    #fileHelp, .charCount{
+                                        margin: 0;
+                                        display: flex;
+                                        text-align: left;
+                                        margin-left: 3px;
+                                        color: grey;
+                                        font-size: 13px;
+                                    }
+                                    .asterisco{
+                                        color: red;
+                                        margin: 0;
+                                    }
+                                    
+                                    .segundo{
+                                        margin-top: 20px;
+                                    }
+                                </style>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <div class="text-center fw-bold">
+                                            <label class="form-label">Asunto<h6 class="asterisco">*</h6></label>
+                                            <textarea id="textInput1" class="form-control" name="asunto" rows="2" maxlength="50" style="height: 40px; resize: none;" placeholder="Asunto..." required></textarea>
+                                            <p class="charCount" id="charCount1">0/50</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <div class="text-center fw-bold">
+                                            <label class="form-label">Descripcion<h6 class="asterisco">*</h6></label>
+                                            <textarea id="textInput2" class="form-control" name="descripcion" rows="3" maxlength="5000" style="min-height: 100px; max-height: 200px; resize: none;" placeholder="Descripcion..." required></textarea>
+                                            <p class="charCount" id="charCount2">0/5000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="segundo row fw-bold">
                                     <div class="col-6">
-                                        <span>Tipo de Requerimiento</span>
+                                        <span>Tipo<h6 class="asterisco">*</h6></span>
                                         <select class="form-select" id="tipoSelect" name="idTipo" required>
                                             <option value="" hidden>Seleccionar tipo</option>
                                             {% for tipo in tiposRequerimientos %}
@@ -31,7 +74,7 @@
                                 </div>
                                 <div class="row text-center fw-bold mt-3">
                                     <div class="col-6">
-                                        <span>Categoria de Requerimiento</span>
+                                        <span>Categoria<h6 class="asterisco">*</h6></span>
                                         <select class="form-select" id="categoriaSelect" name="idCategoria" required>
                                             <option value="None" hidden>Seleccionar categoria</option>
                                             {% for categoria in categoriasRequerimientos %}
@@ -42,13 +85,13 @@
                                     <div class="col-6">
                                         <span>Ingresar Archivos</span>
                                         <input type="file" id="archivos" name="archivos" class="form-control" accept=".doc,.docx,.xls,.xlsx,.pdf" multiple>
-                                        <small id="fileHelp" class="form-text text-muted">Se permiten hasta 5 archivos en formatos Word, Excel y PDF.</small>
+                                        <p id="fileHelp" >Se permiten hasta 5 archivos en formatos Word, Excel y PDF.</p>
                                         <div id="fileWarning" class="text-danger mt-2" style="display: none;"></div>
                                     </div>
                                 </div>
                                 <div class="row text-center fw-bold mt-3">
                                     <div class="col-6">
-                                        <span>Prioridad</span>
+                                        <span>Prioridad<h6 class="asterisco">*</h6></span>
                                         <select class="form-select" name="prioridad" required>
                                             <option value="" hidden disabled selected>Seleccionar Prioridad</option>
                                             <option value="Urgente">Urgente</option>
@@ -77,19 +120,11 @@
                                     
                                     </div>
                                 </div>
+                                
                                 <div class="row mt-3">
                                     <div class="col">
-                                        <div class="text-center fw-bold">
-                                            <label class="form-label mt-4">Asunto</label>
-                                            <textarea class="form-control" name="asunto" rows="2" maxlength="50" style="height: 88px; resize: none;" placeholder="Asunto.." required></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col">
-                                        <div class="text-center fw-bold">
-                                            <label class="form-label mt-4">Descripcion</label>
-                                            <textarea class="form-control" name="descripcion" rows="3" maxlength="5000" style="min-height: 88px; max-height: 200px; resize: none;" placeholder="Descripcion.." required></textarea>
+                                        <div class="asterisco">
+                                            <span class="obligatorio">Los campos marcados con * son de carácter obligatorio</span>
                                         </div>
                                     </div>
                                 </div>
@@ -224,4 +259,29 @@
     });
 });
 </script>
+
+<!--Contador de caracteres-->
+<script>
+    // Función para inicializar el contador de caracteres
+function setupCharacterCounter(textareaId, charCountId) {
+    const textInput = document.getElementById(textareaId);
+    const charCount = document.getElementById(charCountId);
+    const maxLength = parseInt(textInput.getAttribute('maxlength')); // Obtiene el límite máximo
+
+    // Inicializa el contador
+    charCount.textContent = `0/${maxLength}`;
+
+    textInput.addEventListener('input', () => {
+        const currentLength = textInput.value.length;
+        charCount.textContent = `${currentLength}/${maxLength}`; // Actualiza el formato "X/Y"
+    });
+}
+
+// Configura el contador para cada textarea
+setupCharacterCounter('textInput1', 'charCount1');
+setupCharacterCounter('textInput2', 'charCount2');
+</script>
+
+
+
 {% include '/includes/pie.html' %}
