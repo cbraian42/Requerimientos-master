@@ -22,12 +22,10 @@
               </button>
               <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
-                  <li class="nav-item">
-                    <a class="nav-link {% if ubicacion == "MisSolicitudes" %} active {% endif %}" href="/MisSolicitudes">Mis Solicitudes<span class="visually-hidden">(current)</span></a>
-                  </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if ubicacion == "Requerimiento" %} active {% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Requerimiento</a>
                     <div class="dropdown-menu">
+                      <a class="dropdown-item" href="/MisSolicitudes">Mis Solicitudes</a>
                       {% if tipoUsuario == "Interno" %}
                       <a class="dropdown-item" href="/categoriaRequerimiento">Categorias</a><!--Solo internos--><!--Hecho-->
                       <a class="dropdown-item" href="/tipoRequerimiento">Tipos</a><!--Solo internos--><!--Hecho-->
