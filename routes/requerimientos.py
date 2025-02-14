@@ -191,6 +191,16 @@ def cerrarRequerimiento():
     requerimiento.modEstado("Cerrado")
     requerimiento.idEmisor = None
     db.session.commit()
+
+    # Creacion del evento cierre
+    idUsuarioResponsable = session.get('user_id')
+    tipoUsuarioResponsable = session.get('user_tipo')
+    fechaYhora = datetime.now().strftime("%Y-%m-%d %H:%M")
+    accion = "Cierre de Caso"
+    evento = Evento(id_requerimiento , accion, fechaYhora, idUsuarioResponsable, tipoUsuarioResponsable)
+    db.session.add(evento)
+    db.session.commit()
+
     return redirect(url_for('requerimiento.misSolicitudes'))
 
 @requerimiento.route('/MisSolicitudes')
