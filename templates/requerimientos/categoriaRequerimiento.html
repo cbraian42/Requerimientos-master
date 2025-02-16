@@ -9,17 +9,20 @@
                         <!--Registrar Categoria-->
                         <form action="/categoriaRequerimiento/registrar" method="post">
                             <div>
-                                <span>Tipo</span>
-                                <select class="form-control" name="idTipo">
-                                    <option hidden>Seleccionar tipo</option>
+                                <span class="obligatorio">Tipo<h6 class="asterisco">*</h6></span>
+                                <select class="form-select" id="tipoSelect" name="idTipo" required>
+                                    <option value="" hidden>Seleccionar</option>
                                     {% for tipo in tiposRequerimientos %}
-                                        <option value="{{tipo.id}}">{{tipo.tipo}}</option>
+                                        <option value="{{ tipo.id }}">{{ tipo.tipo }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div>
-                                <span>Descripcion</span>
-                                <input type="text" class="form-control" name="descripcion" placeholder="Descripcion">
+                                <span class="obligatorio">Categoria<h6 class="asterisco">*</h6></span>
+                                <input type="text" class="form-control" name="descripcion" placeholder="Categoria" required>
+                            </div>
+                            <div class="asterisco">
+                                <span class="textObligatorio">Los campos marcados con * son de carácter obligatorio</span>
                             </div>
                             <div>
                                 <br>
@@ -32,16 +35,16 @@
             </div>
             <div class="col-8">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="buscador" id="buscador" placeholder="Buscar Tipo de Requerimiento">
+                    <input type="text" class="form-control" name="buscador" id="buscador" placeholder="Buscar">
                 </div>
                 <div>
                     <!--Tabla de categorias-->
-                    <table class="table table-light mt-2 table-bordered text-center" id="usuarios">
+                    <table class="table  mt-2 table-bordered text-left" id="usuarios">
                         <thead>
-                            <tr class="table-info">
+                            <tr class="table table-light">
                                 <th>Codigo</th>
                                 <th>Tipo</th>
-                                <th>Descripcion</th>
+                                <th>Categoria</th>
                                 <th>Accion</th>
                             </tr>
                         </thead>
@@ -55,22 +58,22 @@
                                     {% endif %}
                                 {% endfor %}
                                 <td>{{categoria.descripcion}}</td>
-                                <td>
+                                <td class="text-center">
                                     <form action="/categoria/eliminar" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta categoría?');">
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <!-- Modals -->
-                                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{categoria.id }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
-                                                </svg>
+                                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalModificar{{categoria.id }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                                  </svg>
                                             <input type="number" name="id" value="{{categoria.id}}" hidden>
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </form>
                         
-                                <!-- Modal Ver -->
-                                    <div class="modal fade" id="modalVer{{categoria.id}}" tabindex="-1" aria-labelledby="modalVerLabel{{categoria.id}}" aria-hidden="true">
+                                <!-- Modal Modificar -->
+                                    <div class="modal fade" id="modalModificar{{categoria.id}}" tabindex="-1" aria-labelledby="modalModificarLabel{{categoria.id}}" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -89,8 +92,8 @@
                                                         </div>
                                                         <div class="form-floating">
                                                             <input type="number" name="id" value="{{categoria.id}}" hidden>
-                                                            <input type="text" class="form-control" name="descripcion" placeholder="Descripcion" value="{{categoria.descripcion}}">
-                                                            <label for="usuario">Descripcion</label>
+                                                            <input type="text" class="form-control" name="descripcion" placeholder="Categoria" value="{{categoria.descripcion}}" required>
+                                                            <label for="usuario">Categoria</label>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -129,4 +132,22 @@
         });
     });
 </script>
+
+<style>
+    .obligatorio{
+        display: flex;
+        text-align: left;
+        margin-top: 5px;
+    }                             
+    
+    .asterisco{
+        color: red;
+        margin: 0;
+    }
+
+    .textObligatorio{
+        font-size: 13px;
+    }
+</style>
+
 {% include '/includes/pie.html' %}

@@ -71,12 +71,16 @@ class RelacionRequerimiento(db.Model):
 
 class Archivo(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    idRequerimiento = db.Column(db.Integer)
+    #idRequerimiento = db.Column(db.Integer)
     nombre = db.Column(db.String(255))
+    tipo = db.Column(db.String(255))#Requerimiento o comentario
+    idTipo = db.Column(db.Integer)#ID del requerimiento o del comentario
 
-    def __init__(self, idRequerimiento, nombre):
-        self.idRequerimiento = idRequerimiento
+    def __init__(self, nombre, tipo, idTipo):
+        #self.idRequerimiento = idRequerimiento
         self.nombre = nombre
+        self.tipo = tipo
+        self.idTipo = idTipo
 
 class Evento(db.Model):
     id = db.Column(db.Integer, primary_key = True)
