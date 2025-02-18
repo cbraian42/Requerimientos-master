@@ -25,12 +25,8 @@
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if ubicacion == "Requerimiento" %} active {% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Requerimiento</a>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="/MisSolicitudes">Mis Solicitudes</a>
-                      {% if tipoUsuario == "Interno" %}
-                      <a class="dropdown-item" href="/categoriaRequerimiento">Categorias</a><!--Solo internos--><!--Hecho-->
-                      <a class="dropdown-item" href="/tipoRequerimiento">Tipos</a><!--Solo internos--><!--Hecho-->
-                      {% endif%}
                       <a class="dropdown-item" href="/requerimiento/nuevo">Nuevo</a>
+                      <a class="dropdown-item" href="/MisSolicitudes">Mis Solicitudes</a>
                       {% if tipoUsuario == "Interno" %}
                       <a class="dropdown-item" href="/solicitudesAcargo">Solicitudes a cargo</a> <!--Solo internos-->
                       <a class="dropdown-item" href="/verSolicitudes">Visualización de Solicitudes</a> <!--Solo internos--><!--Hecho-->
@@ -39,17 +35,18 @@
                     </div>
                   </li>
                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {% if ubicacion == "Usuarios" %} active {% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Usuario</a>
+                    <a class="nav-link dropdown-toggle {% if ubicacion == "Gestionar" %} active {% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Gestionar</a>
                     <div class="dropdown-menu">
                       {% if tipoUsuario == "Interno" %}
-                      <a class="dropdown-item" href="/verUsuarios">Ver usuarios</a><!--Solo internos--><!--Hecho-->
-                      <a class="dropdown-item" href="/registrarInterno">Crear usuario interno</a><!--Solo internos--><!--Hecho-->
-                      <a class="dropdown-item" href="/registrarExterno">Crear usuario externo</a><!--Solo internos--><!--Hecho-->
+                      <a class="dropdown-item" href="/categoriaRequerimiento">Categorias</a>
+                      <a class="dropdown-item" href="/tipoRequerimiento">Tipos</a>
+                      <a class="dropdown-item" href="/verUsuarios">Usuarios</a>
+                      <!--<a class="dropdown-item" href="/registrarInterno">Crear usuario interno</a>
+                      <a class="dropdown-item" href="/registrarExterno">Crear usuario externo</a>-->
                       {% endif%}
-                      <a class="dropdown-item" href="/cambiarContraseña">Cambiar contraseña</a><!--Hecho-->
-                      <a class="dropdown-item" href="#"></a>
+                      <a class="dropdown-item" href="/cambiarContraseña">Cambiar contraseña</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="/logout">Cerrar Sesion</a><!--Hecho-->
+                      <a class="dropdown-item" href="/logout">Cerrar Sesion</a>
                     </div>
                   </li>
                 </ul>
