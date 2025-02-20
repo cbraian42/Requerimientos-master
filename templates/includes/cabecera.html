@@ -26,11 +26,11 @@
                     <a class="nav-link dropdown-toggle {% if ubicacion == "Requerimiento" %} active {% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Requerimiento</a>
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="/requerimiento/nuevo">Nuevo</a>
-                      <a class="dropdown-item" href="/MisSolicitudes">Mis Solicitudes</a>
+                      <a class="dropdown-item" href="/MisSolicitudes">Generados</a>
                       {% if tipoUsuario == "Interno" %}
-                      <a class="dropdown-item" href="/solicitudesAcargo">Solicitudes a cargo</a> <!--Solo internos-->
-                      <a class="dropdown-item" href="/verSolicitudes">Visualización de Solicitudes</a> <!--Solo internos--><!--Hecho-->
-                      <a class="dropdown-item" href="/asignacionSolicitudes">Asignacion de Solicitudes</a> <!--Solo internos--><!--Hecho-->
+                      <a class="dropdown-item" href="/solicitudesAcargo">A Cargo</a> <!--Solo internos-->
+                      <a class="dropdown-item" href="/verSolicitudes">Ver Todos</a> <!--Solo internos--><!--Hecho-->
+                      <a class="dropdown-item" href="/asignacionSolicitudes">Asignar</a> <!--Solo internos--><!--Hecho-->
                       {% endif%}
                     </div>
                   </li>
@@ -38,8 +38,8 @@
                     <a class="nav-link dropdown-toggle {% if ubicacion == "Gestionar" %} active {% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Gestionar</a>
                     <div class="dropdown-menu">
                       {% if tipoUsuario == "Interno" %}
-                      <a class="dropdown-item" href="/categoriaRequerimiento">Categorias</a>
                       <a class="dropdown-item" href="/tipoRequerimiento">Tipos</a>
+                      <a class="dropdown-item" href="/categoriaRequerimiento">Categorias</a>
                       <a class="dropdown-item" href="/verUsuarios">Usuarios</a>
                       <!--<a class="dropdown-item" href="/registrarInterno">Crear usuario interno</a>
                       <a class="dropdown-item" href="/registrarExterno">Crear usuario externo</a>-->
