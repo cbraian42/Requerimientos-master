@@ -20,6 +20,7 @@
         <div class="row">
             <div class="col">
                 <!--Tabla de usuarios-->
+                <div class="table-responsive">
 <table class="table mt-2 table-bordered" id="usuarios">
     <thead>
         <tr class="table table-light">
@@ -236,11 +237,64 @@
                                     <input type="number" name="id" value="{{externo.id}}" hidden>
                                     <input type="text" name="tipoUsuario" value="externo" hidden>
 
-                                    <div class="row mt-3 fw-bold">
-                                        <div class="col-6">
-                                            <div>
-                                                <span>Nombre</span>
-                                                <input type="text" class="form-control" name="nombre" value="{{externo.nombre}}" placeholder="Nombre" disabled>
+                                                <div class="row mt-3 fw-bold">
+                                                    <div class="col-6">
+                                                        <div>
+                                                            <span>Nombre</span>
+                                                            <input type="text" class="form-control" name="nombre" value="{{externo.nombre}}" placeholder="Nombre" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div>
+                                                            <span>Usuario</span>
+                                                            <input type="text" class="form-control" name="usuario" value="{{externo.usuario}}" placeholder="Usuario" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3 fw-bold">
+                                                    <div class="col-6">
+                                                        <div>
+                                                            <span>Contraseña</span>
+                                                            <input type="password" class="form-control" name="contrasena" value="*****" placeholder="Contraseña" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div>
+                                                            <span>Correo</span>
+                                                            <input type="text" class="form-control" name="correo" value="{{externo.correo}}" placeholder="Correo" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3 fw-bold">
+                                                    <div class="col-6">
+                                                        <div>
+                                                            <span>Cuil</span>
+                                                            <input type="text" class="form-control" name="cuil" value="{{externo.cuil}}" placeholder="Cuil" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div>
+                                                            <span>Empresa</span>
+                                                            <input type="text" class="form-control" name="empresa" value="{{externo.empresa}}" placeholder="Empresa" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3 fw-bold">
+                                                    <div class="col-6">
+                                                        <div>
+                                                            <span>Descripcion</span>
+                                                            <input type="text" class="form-control" name="descripcion" value="{{externo.descripcion}}" placeholder="Descripcion" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <span>Destacado</span>
+                                                            {% if externo.destacado == "true" %}
+                                                                <input type="text" class="form-control" name="destacado" value="Si" placeholder="" disabled>
+                                                            {% else %}
+                                                                <input type="text" class="form-control" name="destacado" value="No" placeholder="" disabled>
+                                                            {% endif %}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -290,28 +344,28 @@
                                     </div>
                                 </div>
 
-                                <div class="modal-footer">
-                                    <div class="container">
-                                                <div style="text-align: right;">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 140px;">Cerrar</button>
+                                            <div class="modal-footer">
+                                                <div class="container">
+                                                            <div style="text-align: right;">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 140px;">Cerrar</button>
+                                                            </div>
                                                 </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Modal Modificar -->
-                    <div class="modal fade" id="modalModificar{{externo.id}}" tabindex="-1" aria-labelledby="modalModificarLabel{{externo.id}}" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalVerLabel{{externo.id}}">Modificar usuario</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <form action="/externo/modificar" method="post" id="externoForm{{externo.id}}" onsubmit="return confirm('¿Deseas modificar este usuario?');">
-                                    <div class="modal-body">
-                                        <input type="number" name="id" value="{{externo.id}}" hidden>
-                                        <input type="text" name="tipoUsuario" value="externo" hidden>
+                                <!-- Modal Modificar -->
+                                <div class="modal fade" id="modalModificar{{externo.id}}" tabindex="-1" aria-labelledby="modalModificarLabel{{externo.id}}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalVerLabel{{externo.id}}">Modificar usuario</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="/externo/modificar" method="post" id="externoForm{{externo.id}}" onsubmit="return confirm('¿Deseas modificar este usuario?');">
+                                                <div class="modal-body">
+                                                    <input type="number" name="id" value="{{externo.id}}" hidden>
+                                                    <input type="text" name="tipoUsuario" value="externo" hidden>
 
                                         <div class="container" style="text-align: left;">
                                             <div class="row mt-1">
@@ -379,20 +433,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </td>
-            </tr>
-        {% endfor %}
-        <!--Fin Mostrar usuarios externos-->
-    </tbody>
-</table>
-<!--Fin Tabla de usuarios-->
-</div>
-</div>
+                                </div>
+                                
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <!--Fin Mostrar usuarios externos-->
+                </tbody>
+            </table>
+            <!--Fin Tabla de usuarios-->
+        </div>
+            </div>
+        </div>
+    </div>
 </div>
 </main>
 
