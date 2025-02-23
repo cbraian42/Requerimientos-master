@@ -83,13 +83,7 @@ def modInterno():
     id = request.form['id']
     interno = UsuarioInterno.query.get(id)
     # Obtengo los datos del formulario
-    interno.legajo = request.form['legajo']
-    interno.nombre = request.form['nombre']
     interno.usuario = request.form['usuario']
-    contrasena = request.form['contrasena']
-    if contrasena != "":
-        hashed_contrasena = generate_password_hash(contrasena)
-        interno.contrasena = hashed_contrasena
     interno.correo = request.form['correo']
     interno.cargo = request.form['cargo']
     interno.departamento = request.form['departamento']

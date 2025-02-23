@@ -1,15 +1,20 @@
 {% include '/includes/cabecera.html' %}
 <main>
     <div class="container">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col">
                 <div class="div">
                     <input class="form-control mt-2" type="text" id="buscador" placeholder="Buscar usuario..">
                 </div>
             </div>
-            <div class="col text-center">
-                <a class="btn btn-secondary mt-2" href="/registrarInterno">Registrar Interno</a>
-                <a class="btn btn-secondary mt-2" href="/registrarExterno">Registrar Externo</a>
+
+            <div class="col" style="display: flex; gap: 8px; align-self: end;  justify-content:right;">
+                <a class="btn btn-outline-danger"  href="/registrarInterno">
+                    Registrar Interno
+                </a>
+                <a class="btn btn-outline-success" href="/registrarExterno">
+                    Registrar Externo
+                </a>
             </div>
         </div>
         <div class="row">
@@ -28,101 +33,162 @@
     <tbody>
         <!--Mostrar usuarios internos-->
         {% for interno in internos %}
-            <tr>
+         
+                <tr>
                 <td>{{ interno.nombre }}</td>
                 <td>{{ interno.usuario }}</td>
                 <td>{{ interno.tipoUsuario }}</td>
                 <td>{{ interno.correo }}</td>
                 <td class="text-center">
+                    <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{interno.id}}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 1 16 16">
-                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
-                                </svg>
-                            </button>
-                    <!--boton anterior:<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{interno.id}}" style="border-radius: 100px;"><i class="fa fa-eye"></i></button> -->
-                    <!-- Modal Ver datos de usuario -->
-                    <div class="modal fade" id="modalVer{{interno.id}}" tabindex="-1" aria-labelledby="modalVerLabel{{interno.id}}" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 1 16 16">
+                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalModificar{{interno.id }}" style="background-color: #2f87ed;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                    </button>
+                </div>
+                        
+                    <!-- Modal Ver -->
+                    <div class="modal fade" id="modalVer{{interno.id}}" tabindex="-1" aria-labelledby="modalVerLabel{{interno.id}}" aria-hidden="true">                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalVerLabel{{interno.id}}">Datos del usuario</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" style="text-align: left;">
+                                    <input type="number" name="id" value="{{interno.id}}" hidden>
+                                    <input type="text" name="tipoUsuario" value="interno" hidden>
+                                    <div class="row mt-3 fw-bold">
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Nombre</span>
+                                                <input type="text" class="form-control" name="nombre" value="{{interno.nombre}}" placeholder="Nombre" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Usuario</span>
+                                                <input type="text" class="form-control" name="usuario" value="{{interno.usuario}}" placeholder="Usuario" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 fw-bold">
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Legajo</span>
+                                                <input type="number" class="form-control" name="legajo" value="{{interno.legajo}}" placeholder="Legajo" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Correo</span>
+                                                <input type="text" class="form-control" name="correo" value="{{interno.correo}}" placeholder="Correo" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 fw-bold">
+                                        
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Cargo</span>
+                                                <input type="text" class="form-control" name="empresa" value="{{interno.cargo}}" placeholder="Cargo" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Departamento</span>
+                                                <input type="text" class="form-control" name="descripcion" value="{{interno.departamento}}" placeholder="Departamento" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="modal-footer">
+                                    <div class="container">
+                                                <div style="text-align: right;">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 140px;">Cerrar</button>
+                                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Fin Modal Ver -->
+
+                    <!-- Modal Modificar -->
+                    <div class="modal fade" id="modalModificar{{interno.id}}" tabindex="-1" aria-labelledby="modalModificarLabel{{interno.id}}" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalVerLabel{{interno.id}}">Ver Usuario Interno</h5>
+                                    <h5 class="modal-title" id="modalVerLabel{{interno.id}}">Modificar usuario</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form action="/interno/modificar" method="post" id="internoForm{{interno.id}}" onsubmit="return confirm('¿Deseas modificar este usuario?');">
                                     <div class="modal-body">
                                         <input type="number" name="id" value="{{interno.id}}" hidden>
-                                        <div class="container">
+                                        <input type="text" name="tipoUsuario" value="interno" hidden>
+
+                                        <div class="container" style="text-align: left;">
                                             <div class="row mt-1">
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
-                                                        <span>Legajo</span>
-                                                        <input type="number" class="form-control" name="legajo" value="{{interno.legajo}}" placeholder="Legajo">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Nombre</span>
-                                                        <input type="text" class="form-control" name="nombre" value="{{interno.nombre}}" placeholder="Nombre">
+                                                        <input type="text" class="form-control" name="nombre" value="{{interno.nombre}}" placeholder="Nombre" disabled>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mt-3">
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Usuario</span>
                                                         <input type="text" class="form-control" name="usuario" value="{{interno.usuario}}" placeholder="Usuario">
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="row mt-3">
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Correo</span>
                                                         <input type="text" class="form-control" name="correo" value="{{interno.correo}}" placeholder="Correo">
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mt-3">
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
-                                                        <span>Contraseña</span>
-                                                        <input type="password" class="form-control" name="contrasena" value="" placeholder="Contraseña">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="text-center fw-bold">
-                                                        <span>Contraseña</span>
-                                                        <input type="password" class="form-control" name="contrasenax2" value="" placeholder="Vuelve a escribir la Contraseña">
+                                                    <div class="fw-bold">
+                                                        <span>Legajo</span>
+                                                        <input type="text" class="form-control" name="legajo" value="{{interno.legajo}}" placeholder="Legajo" disabled>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Cargo</span>
                                                         <input type="text" class="form-control" name="cargo" value="{{interno.cargo}}" placeholder="Cargo">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Departamento</span>
                                                         <input type="text" class="form-control" name="departamento" value="{{interno.departamento}}" placeholder="Departamento">
                                                     </div>
                                                 </div>
                                             </div>
+                                            
+                                            
                                         </div>
+                                        
                                     </div>
                                     <div class="modal-footer">
                                         <div class="container">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <button type="button" class="btn btn-danger" data-interno-id="{{interno.id}}" style="width: 140px;" onclick="confirmarEliminar({interno.id})">Eliminar</button>
-                                                    <button type="submit" class="btn btn-success" style="width: 140px;">Modificar</button>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div style="text-align: right;">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 140px;">Cerrar</button>
-                                                    </div>
-                                                </div>
+                                            <div class="row" style="display: flex; justify-content: space-between;">
+                                                    <button type="button" class="btn btn-danger" data-externo-id="{{interno.id}}" style="width: 140px;" onclick="confirmarEliminar({{interno.id}})">Eliminar</button>
+                                                    <button type="submit" class="btn btn-success" style="width: 140px;">Modificar</button>                                                
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +196,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Fin Modal Ver datos de usuario -->
+                    
                 </td>
             </tr>
         {% endfor %}
@@ -144,20 +210,20 @@
                 <td>{{ externo.tipoUsuario }}</td>
                 <td>{{ externo.correo }}</td>
                 <td class="text-center">
+                    <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{externo.id}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 1 16 16">
                                     <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
                                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
                                 </svg>
                         </button>
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalModificar{{externo.id }}">
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalModificar{{externo.id }}" style="background-color: #2f87ed;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                             </svg>
                         </button>
-                        
-                    <!--boton anterior<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{externo.id}}" style="border-radius: 100px;"><i class="fa fa-eye"></i></button>-->
+                        </div>
                     <!-- Modal Ver -->
                     <div class="modal fade" id="modalVer{{externo.id}}" tabindex="-1" aria-labelledby="modalVerLabel{{ externo.id }}" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -187,8 +253,8 @@
                                     <div class="row mt-3 fw-bold">
                                         <div class="col-6">
                                             <div>
-                                                <span>Contraseña</span>
-                                                <input type="password" class="form-control" name="contrasena" value="*****" placeholder="Contraseña" disabled>
+                                                <span>Cuil</span>
+                                                <input type="text" class="form-control" name="cuil" value="{{externo.cuil}}" placeholder="Cuil" disabled>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -201,25 +267,19 @@
                                     <div class="row mt-3 fw-bold">
                                         <div class="col-6">
                                             <div>
-                                                <span>Cuil</span>
-                                                <input type="text" class="form-control" name="cuil" value="{{externo.cuil}}" placeholder="Cuil" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div>
                                                 <span>Empresa</span>
                                                 <input type="text" class="form-control" name="empresa" value="{{externo.empresa}}" placeholder="Empresa" disabled>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row mt-3 fw-bold">
                                         <div class="col-6">
                                             <div>
                                                 <span>Descripcion</span>
                                                 <input type="text" class="form-control" name="descripcion" value="{{externo.descripcion}}" placeholder="Descripcion" disabled>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                    </div>
+                                    <div class="row mt-3 fw-bold">
+                                        <div class="col-12">
                                             <span>Destacado</span>
                                                 {% if externo.destacado == "true" %}
                                                     <input type="text" class="form-control" name="destacado" value="Si" placeholder="" disabled>
@@ -258,27 +318,13 @@
                                                 <div class="col-6">
                                                     <div class="fw-bold">
                                                         <span>Nombre</span>
-                                                        <input type="text" class="form-control" name="nombre" value="{{externo.nombre}}" placeholder="Nombre" >
+                                                        <input type="text" class="form-control" name="nombre" value="{{externo.nombre}}" placeholder="Nombre" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="fw-bold">
                                                         <span>Usuario</span>
                                                         <input type="text" class="form-control" name="usuario" value="{{externo.usuario}}" placeholder="Usuario">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-3">
-                                                <div class="col-6">
-                                                    <div class="fw-bold">
-                                                        <span>Contraseña</span>
-                                                        <input type="password" class="form-control" name="contrasena" value="" placeholder="Contraseña">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="fw-bold">
-                                                        <span>Contraseña</span>
-                                                        <input type="password" class="form-control" name="contrasenax2" value="" placeholder="vuelve a ingresar la Contraseña">
                                                     </div>
                                                 </div>
                                             </div>
@@ -292,7 +338,7 @@
                                                 <div class="col-6">
                                                     <div class="fw-bold">
                                                         <span>Cuil</span>
-                                                        <input type="text" class="form-control" name="cuil" value="{{externo.cuil}}" placeholder="Cuil">
+                                                        <input type="text" class="form-control" name="cuil" value="{{externo.cuil}}" placeholder="Cuil" disabled>
                                                     </div>
                                                 </div>
                                             </div>
