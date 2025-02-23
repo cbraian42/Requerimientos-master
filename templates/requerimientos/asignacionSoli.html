@@ -13,120 +13,122 @@
         </div>
         <div class="row">
             <div class="col">
-                <!--Tabla con requerimientos propios-->
-                <table class="table table-bordered text-left" id="misSolicitudes">
-                    <thead>
-                        <tr class="table table-light">
-                            <th>Codigo</th>
-                            <th>Tipo</th>
-                            <th>Categoria</th>
-                            <th>Fecha de alta</th>
-                            <th>Asunto</th>
-                            <th>Propietario</th>
-                            <th>Accion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for requerimiento in requerimientos %}
-                            <tr>
-                                <td>{{ requerimiento.codigo }}</td>
-                                {% for tipoRequerimiento in tiposRequerimientos %}
-                                    {% if tipoRequerimiento.id == requerimiento.idTipoRequerimiento %}
-                                        <td>{{ tipoRequerimiento.tipo }}</td>
-                                    {% endif %}
-                                {% endfor %}
-                                {% for catRequerimiento in catRequerimientos %}
-                                    {% if catRequerimiento.id == requerimiento.idCategoriaRequerimiento %}
-                                        <td>{{ catRequerimiento.descripcion }}</td>
-                                    {% endif %}
-                                {% endfor %}
-                                <td>{{ requerimiento.fechaYhora }}</td>
-                                <td>{{ requerimiento.asunto }}</td>
-                                <td>
-                                    {% if requerimiento.tipoEmisor == "Interno" %}
-                                        {% for interno in internos %}
-                                            {% if interno.id == requerimiento.idEmisor %}
-                                                {{ interno.nombre }}
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if requerimiento.tipoEmisor == "Externo" %}
-                                        {% for externo in externos %}
-                                            {% if externo.id == requerimiento.idEmisor %}
-                                                {{ externo.nombre }}
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                </td>
-                                <td id="accion">
-                                    <button type="button"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAsignar{{requerimiento.id}}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
-                                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-                                            <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
-                                        </svg>
-                                    </button>
-                                    <!-- Modal Asignar -->
-                                    <div class="modal fade" id="modalAsignar{{requerimiento.id}}" tabindex="-1" aria-labelledby="modalAsignarLabel{{requerimiento.id}}" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalAsignarLabel{{requerimiento.id}}">Asignar responsable</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                
-                                                <form id="formRequerimiento" data-requerimiento-id="{{requerimiento.id}}" action="/requerimiento/asignar" method="post">
-                                                    <div class="modal-body">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control buscador" placeholder="Buscar Interno..">
-                                                        </div>
-                                                        <input type="number" name="idRequerimiento" value="{{requerimiento.id}}" hidden>
-                                                        <div class="form-floating mb-3">
-                                                            <span>Interno</span>
-                                                            <select class="form-select internoSelect" name="interno" required>
-                                                                <option value="None" hidden>Seleccionar Interno</option>
-                                                                {% for interno in internos %}
-                                                                    <option value="{{ interno.id }}" data-tipo="{{ interno.nombre }}">{{ interno.nombre }}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
+                <div class="table-responsive">
+                    <!--Tabla con requerimientos propios-->
+                    <table class="table table-bordered text-left" id="misSolicitudes">
+                        <thead>
+                            <tr class="table table-light">
+                                <th>Codigo</th>
+                                <th>Tipo</th>
+                                <th>Categoria</th>
+                                <th>Fecha de alta</th>
+                                <th>Asunto</th>
+                                <th>Propietario</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for requerimiento in requerimientos %}
+                                <tr>
+                                    <td>{{ requerimiento.codigo }}</td>
+                                    {% for tipoRequerimiento in tiposRequerimientos %}
+                                        {% if tipoRequerimiento.id == requerimiento.idTipoRequerimiento %}
+                                            <td>{{ tipoRequerimiento.tipo }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for catRequerimiento in catRequerimientos %}
+                                        {% if catRequerimiento.id == requerimiento.idCategoriaRequerimiento %}
+                                            <td>{{ catRequerimiento.descripcion }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <td>{{ requerimiento.fechaYhora }}</td>
+                                    <td>{{ requerimiento.asunto }}</td>
+                                    <td>
+                                        {% if requerimiento.tipoEmisor == "Interno" %}
+                                            {% for interno in internos %}
+                                                {% if interno.id == requerimiento.idEmisor %}
+                                                    {{ interno.nombre }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% if requerimiento.tipoEmisor == "Externo" %}
+                                            {% for externo in externos %}
+                                                {% if externo.id == requerimiento.idEmisor %}
+                                                    {{ externo.nombre }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                    <td id="accion">
+                                        <button type="button"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAsignar{{requerimiento.id}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
+                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                                                <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
+                                            </svg>
+                                        </button>
+                                        <!-- Modal Asignar -->
+                                        <div class="modal fade" id="modalAsignar{{requerimiento.id}}" tabindex="-1" aria-labelledby="modalAsignarLabel{{requerimiento.id}}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalAsignarLabel{{requerimiento.id}}">Asignar responsable</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                                        <!--<button type="submit" class="btn btn-success">Asignar</button>-->
-                                                        <button type="button" id="openConfirmationModal{{requerimiento.id}}" class="btn btn-success" data-requerimiento-id="{{requerimiento.id}}">Asignar</button>
+                                                    
+                                                    <form id="formRequerimiento" data-requerimiento-id="{{requerimiento.id}}" action="/requerimiento/asignar" method="post">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control buscador" placeholder="Buscar Interno..">
+                                                            </div>
+                                                            <input type="number" name="idRequerimiento" value="{{requerimiento.id}}" hidden>
+                                                            <div class="form-floating mb-3">
+                                                                <span>Interno</span>
+                                                                <select class="form-select internoSelect" name="interno" required>
+                                                                    <option value="None" hidden>Seleccionar Interno</option>
+                                                                    {% for interno in internos %}
+                                                                        <option value="{{ interno.id }}" data-tipo="{{ interno.nombre }}">{{ interno.nombre }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                            <!--<button type="submit" class="btn btn-success">Asignar</button>-->
+                                                            <button type="button" id="openConfirmationModal{{requerimiento.id}}" class="btn btn-success" data-requerimiento-id="{{requerimiento.id}}">Asignar</button>
 
-                                                    </div>
+                                                        </div>
 
-                                                    <!-- Modal de confirmación -->
-                                                    <div class="modal fade" id="confirmationModal{{requerimiento.id}}" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="confirmationModalLabel">Confirmación</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                                                                </div>
-                                                                <div class="modal-body d-flex align-items-center">
-                                                                    <i class="fas fa-exclamation-triangle text-warning me-3" style="font-size: 24px;"></i>
-                                                                    <span>¿Estás seguro que deseas asignar a este usuario?</span>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                                    <button type="button" id="confirmSubmit{{requerimiento.id}}" class="btn btn-success">Confirmar</button>
+                                                        <!-- Modal de confirmación -->
+                                                        <div class="modal fade" id="confirmationModal{{requerimiento.id}}" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="confirmationModalLabel">Confirmación</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                                                    </div>
+                                                                    <div class="modal-body d-flex align-items-center">
+                                                                        <i class="fas fa-exclamation-triangle text-warning me-3" style="font-size: 24px;"></i>
+                                                                        <span>¿Estás seguro que deseas asignar a este usuario?</span>
+                                                                        </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                                        <button type="button" id="confirmSubmit{{requerimiento.id}}" class="btn btn-success">Confirmar</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- Fin modal Asignar -->
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <!--Fin tabla con requerimientos propios-->
+                                        <!-- Fin modal Asignar -->
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!--Fin tabla con requerimientos propios-->
+                </div>
             </div>
         </div>
     </div>
