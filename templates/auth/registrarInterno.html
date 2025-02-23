@@ -9,7 +9,7 @@
                             <div class="card-body">
                                 <div class="m-sm-4">
                                     <div class="text-center">
-                                        <img src="https://applicantes.com/wp-content/uploads/2023/03/crear-logotipo-empresa-financiera.jpeg" alt="logo" class="img-fluid rounded-circle" width="132" height="132">
+                                        <img src="https://applicantes.com/wp-content/uploads/2023/03/crear-logotipo-empresa-financiera.jpeg" alt="logo" class="img-fluid rounded-circle" width="150" height="150">
                                     </div>
                                     <form action="/usuario/registrarInterno" method="post">
                                         <div class="container">
@@ -17,13 +17,13 @@
                                             <div class="row">
                                                 <div class="col-6 mt-3">
                                                     <div class="text-center fw-bold">
-                                                        <span>Nombre</span>
+                                                        <span>Nombre<h6 class="asterisco">*</h6></span>
                                                         <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-6 mt-3">
                                                     <div class="text-center fw-bold">
-                                                        <span>Apellido</span>
+                                                        <span>Apellido<h6 class="asterisco">*</h6></span>
                                                         <input type="text" class="form-control" name="apellido" placeholder="Apellido" required>
                                                     </div>
                                                 </div>
@@ -31,13 +31,13 @@
                                             <div class="row">
                                                 <div class="col-6 mt-3">
                                                     <div class="text-center fw-bold">
-                                                        <span>Dni</span>
+                                                        <span>Dni<h6 class="asterisco">*</h6></span>
                                                         <input type="number" class="form-control" name="dni" placeholder="Dni" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-6 mt-3">
                                                     <div class="text-center fw-bold">
-                                                        <span>Legajo</span>
+                                                        <span>Legajo<h6 class="asterisco">*</h6></span>
                                                         <input type="number" class="form-control" name="legajo" placeholder="Legajo" required>
                                                     </div>
                                                 </div>
@@ -45,13 +45,13 @@
                                             <div class="row">
                                                 <div class="col-6 mt-3">
                                                     <div class="text-center fw-bold">
-                                                        <span>Email</span>
+                                                        <span>Email<h6 class="asterisco">*</h6></span>
                                                         <input type="email" class="form-control" name="correo" placeholder="Email" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-6 mt-3">
                                                     <div class="text-center fw-bold">
-                                                        <span>Departamento</span>
+                                                        <span>Departamento<h6 class="asterisco">*</h6></span>
                                                         <input type="text" class="form-control" name="departamento" placeholder="Departamento" required>
                                                     </div>
                                                 </div>
@@ -59,13 +59,13 @@
                                             <div class="row">
                                                 <div class="col-6 mt-3">
                                                     <div class="text-center fw-bold">
-                                                        <span>Cargo</span>
+                                                        <span>Cargo<h6 class="asterisco">*</h6></span>
                                                         <input type="text" class="form-control" name="cargo" placeholder="Cargo" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-6 mt-3">
                                                     <div class="text-center fw-bold">
-                                                        <span>Usuario</span>
+                                                        <span>Usuario<h6 class="asterisco">*</h6></span>
                                                         <input type="text" class="form-control" name="usuario" placeholder="Usuario" required>
                                                     </div>
                                                 </div>
@@ -73,23 +73,31 @@
                                             <div class="row">
                                                 <div class="col-6 mt-3">
                                                     <div class="text-center fw-bold">
-                                                        <span>Contraseña</span>
+                                                        <span>Contraseña<h6 class="asterisco">*</h6></span>
                                                         <input type="password" class="form-control" name="contrasena" placeholder="Contraseña" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-6 mt-3">
                                                     <div class="text-center fw-bold">
-                                                        <span>Confirmar Contraseña</span>
+                                                        <span>Confirmar Contraseña<h6 class="asterisco">*</h6></span>
                                                         <input type="password" class="form-control" name="contrasenax2" placeholder="Confirmar Contraseña" required>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- Mensaje de campos obligatorios -->
+                                         <div class="row">
+                                            <div class="col-12 mt-3">
+                                                <div class="asterisco">
+                                                    <span class="obligatorio">Los campos marcados con * son de carácter obligatorio</span>
+                                               </div>
+                                             </div>
+                                          </div>
+                                          <br>
+                                        <div class=" mt-1 text-center" style="display: flex; justify-content: space-between;">
+                                          <a href="/verUsuarios"><button type="button" class="btn btn-lg btn-danger" style="width: 150px;">Volver</button></a>
+                                          <button type="submit" class="btn btn-lg btn-primary" style="width: 150px;">Registrarse</button>
                                         </div>
-                                        <br>
-                                        <div class="text-center mt-1 text-align-center">
-                                          <button type="submit" class="btn btn-lg btn-primary" style="width: 150px; margin-right: 90px;">Registrarse</button>
-                                          <a href="/MisSolicitudes"><button type="button" class="btn btn-lg btn-danger" style="width: 150px;">Volver</button></a>
-                                        </div>
+                                        </div>   
                                     </form>
                                 </div>
                             </div>
@@ -100,4 +108,19 @@
         </div>
     </div>
 </main>
+
+<style>
+    /* Estilos personalizados */
+    span, .obligatorio {
+        display: flex;
+        text-align: left;
+        margin: 3px;
+    }
+
+    .asterisco {
+        color: red;
+        margin: 0;
+    }
+</style>
+
 {% include '/includes/pieAuth.html'%}

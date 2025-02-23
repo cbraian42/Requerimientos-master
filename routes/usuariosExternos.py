@@ -21,7 +21,7 @@ def RegistrarExterno():
     tipoUsuario = "Usuario Externo"
     cuil = request.form['cuil']
     descripcion = request.form['descripcion']
-    destacado = request.form.get('destacado')#ACOMODAR EL FORM PARA ESTO PORQUE LO SAQUE SIN QUERER
+    destacado = request.form.get('destacado')
     if destacado:
     # El checkbox está marcado
         destacado = True
@@ -96,7 +96,7 @@ def modInterno():
     externo.cuil = request.form['cuil']
     externo.descripcion = request.form['descripcion']
     externo.empresa = request.form['empresa']
-    externo.destacado = request.form['destacado']
+    externo.destacado = request.form.get('destacado')
     # Confirmo los cambios
     db.session.commit()
 

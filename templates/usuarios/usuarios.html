@@ -7,7 +7,7 @@
                     <input class="form-control mt-2" type="text" id="buscador" placeholder="Buscar usuario..">
                 </div>
             </div>
-            <div class="col text-center"> <!--REvisar-->
+            <div class="col text-center">
                 <a class="btn btn-secondary mt-2" href="/registrarInterno">Registrar Interno</a>
                 <a class="btn btn-secondary mt-2" href="/registrarExterno">Registrar Externo</a>
             </div>
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col">
                 <!--Tabla de usuarios-->
-<table class="table mt-2 table-bordered text-center" id="usuarios">
+<table class="table mt-2 table-bordered" id="usuarios">
     <thead>
         <tr class="table table-light">
             <th>Nombre</th>
@@ -33,7 +33,7 @@
                 <td>{{ interno.usuario }}</td>
                 <td>{{ interno.tipoUsuario }}</td>
                 <td>{{ interno.correo }}</td>
-                <td>
+                <td class="text-center">
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{interno.id}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 1 16 16">
                                     <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
@@ -143,20 +143,109 @@
                 <td>{{ externo.usuario }}</td>
                 <td>{{ externo.tipoUsuario }}</td>
                 <td>{{ externo.correo }}</td>
-                <td>
-                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{externo.id }}">
+                <td class="text-center">
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{externo.id}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 1 16 16">
                                     <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
                                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
                                 </svg>
                         </button>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalModificar{{externo.id }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                        </button>
+                        
                     <!--boton anterior<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalVer{{externo.id}}" style="border-radius: 100px;"><i class="fa fa-eye"></i></button>-->
                     <!-- Modal Ver -->
-                    <div class="modal fade" id="modalVer{{externo.id}}" tabindex="-1" aria-labelledby="modalVerLabel{{externo.id}}" aria-hidden="true">
+                    <div class="modal fade" id="modalVer{{externo.id}}" tabindex="-1" aria-labelledby="modalVerLabel{{ externo.id }}" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalVerLabel{{externo.id}}">Ver usuario Externo</h5>
+                                    <h5 class="modal-title" id="modalVerLabel{{externo.id}}">Datos del usuario</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" style="text-align: left;">
+                                    <input type="number" name="id" value="{{externo.id}}" hidden>
+                                    <input type="text" name="tipoUsuario" value="externo" hidden>
+
+                                    <div class="row mt-3 fw-bold">
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Nombre</span>
+                                                <input type="text" class="form-control" name="nombre" value="{{externo.nombre}}" placeholder="Nombre" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Usuario</span>
+                                                <input type="text" class="form-control" name="usuario" value="{{externo.usuario}}" placeholder="Usuario" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 fw-bold">
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Contraseña</span>
+                                                <input type="password" class="form-control" name="contrasena" value="*****" placeholder="Contraseña" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Correo</span>
+                                                <input type="text" class="form-control" name="correo" value="{{externo.correo}}" placeholder="Correo" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 fw-bold">
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Cuil</span>
+                                                <input type="text" class="form-control" name="cuil" value="{{externo.cuil}}" placeholder="Cuil" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Empresa</span>
+                                                <input type="text" class="form-control" name="empresa" value="{{externo.empresa}}" placeholder="Empresa" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 fw-bold">
+                                        <div class="col-6">
+                                            <div>
+                                                <span>Descripcion</span>
+                                                <input type="text" class="form-control" name="descripcion" value="{{externo.descripcion}}" placeholder="Descripcion" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <span>Destacado</span>
+                                                {% if externo.destacado == "true" %}
+                                                    <input type="text" class="form-control" name="destacado" value="Si" placeholder="" disabled>
+                                                {% else %}
+                                                    <input type="text" class="form-control" name="destacado" value="No" placeholder="" disabled>
+                                                {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <div class="container">
+                                                <div style="text-align: right;">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 140px;">Cerrar</button>
+                                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal Modificar -->
+                    <div class="modal fade" id="modalModificar{{externo.id}}" tabindex="-1" aria-labelledby="modalModificarLabel{{externo.id}}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalVerLabel{{externo.id}}">Modificar usuario</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form action="/externo/modificar" method="post" id="externoForm{{externo.id}}" onsubmit="return confirm('¿Deseas modificar este usuario?');">
@@ -164,16 +253,16 @@
                                         <input type="number" name="id" value="{{externo.id}}" hidden>
                                         <input type="text" name="tipoUsuario" value="externo" hidden>
 
-                                        <div class="container">
+                                        <div class="container" style="text-align: left;">
                                             <div class="row mt-1">
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Nombre</span>
-                                                        <input type="text" class="form-control" name="nombre" value="{{externo.nombre}}" placeholder="Nombre">
+                                                        <input type="text" class="form-control" name="nombre" value="{{externo.nombre}}" placeholder="Nombre" >
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Usuario</span>
                                                         <input type="text" class="form-control" name="usuario" value="{{externo.usuario}}" placeholder="Usuario">
                                                     </div>
@@ -181,13 +270,13 @@
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Contraseña</span>
                                                         <input type="password" class="form-control" name="contrasena" value="" placeholder="Contraseña">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Contraseña</span>
                                                         <input type="password" class="form-control" name="contrasenax2" value="" placeholder="vuelve a ingresar la Contraseña">
                                                     </div>
@@ -195,13 +284,13 @@
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Correo</span>
                                                         <input type="text" class="form-control" name="correo" value="{{externo.correo}}" placeholder="Correo">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Cuil</span>
                                                         <input type="text" class="form-control" name="cuil" value="{{externo.cuil}}" placeholder="Cuil">
                                                     </div>
@@ -209,40 +298,38 @@
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Empresa</span>
                                                         <input type="text" class="form-control" name="empresa" value="{{externo.empresa}}" placeholder="Empresa">
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
-                                                    <div class="text-center fw-bold">
+                                                    <div class="fw-bold">
                                                         <span>Descripcion</span>
                                                         <input type="text" class="form-control" name="descripcion" value="{{externo.descripcion}}" placeholder="Descripcion">
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row mt-3">
+                                                <div class="col-6">
+                                                    <div class="fw-bold"  style="display: flex; align-items: center; gap: 15px;">
+                                                        <span>¿Usuario destacado?</span>
+                                                        <label class="switch">
+                                                            <input type="checkbox" class="form-control" name="destacado" value="true" {% if externo.destacado == 'true' %}checked{% endif %}>
+                                                            <span class="slider"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
-                                        <div class="form-check mt-2">
-                                            <input class="form-check-input" type="radio" name="destacado" value="true" id="destacado{{externo.id}}" {% if externo.destacado == "true" %}checked{% endif %}>
-                                            <label class="form-check-label" for="destacado{{externo.id}}">Destacado</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="destacado" value="false" id="noDestacado{{externo.id}}" {% if externo.destacado == "false" %}checked{% endif %}>
-                                            <label class="form-check-label" for="noDestacado{{externo.id}}">No destacado</label>
-                                        </div>
+                                        
                                     </div>
                                     <div class="modal-footer">
                                         <div class="container">
-                                            <div class="row">
-                                                <div class="col-6">
+                                            <div class="row" style="display: flex; justify-content: space-between;">
                                                     <button type="button" class="btn btn-danger" data-externo-id="{{externo.id}}" style="width: 140px;" onclick="confirmarEliminar({{externo.id}})">Eliminar</button>
-                                                    <button type="submit" class="btn btn-success" style="width: 140px;">Modificar</button>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div style="text-align: right;">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 140px;">Cerrar</button>
-                                                    </div>
-                                                </div>
+                                                    <button type="submit" class="btn btn-success" style="width: 140px;">Modificar</button>                                                
                                             </div>
                                         </div>
                                     </div>
@@ -250,6 +337,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </td>
             </tr>
         {% endfor %}
@@ -314,5 +402,56 @@
             alert("Usuario con ID " + usuarioId + " eliminado.");
         }
     }
-    </script>
+</script>
+
+<!--Toggle switch destacado-->
+
+    
+    <style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 25px;
+    }
+    
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        border-radius: 25px;
+        transition: .4s;
+    }
+    
+    .slider:before {
+        content: "";
+        position: absolute;
+        height: 18px;
+        width: 18px;
+        left: 4px;
+        bottom: 3px;
+        background-color: white;
+        border-radius: 50%;
+        transition: .4s;
+    }
+    
+    input:checked + .slider {
+        background-color: #2f87ed;
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(24px);
+    }
+</style>
+
 {% include '/includes/pie.html' %}
