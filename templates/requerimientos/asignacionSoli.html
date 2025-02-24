@@ -2,7 +2,7 @@
 
 <main>
     <div class="container">
-        <div class="row mt-2">
+        <div class="row">
             <div class="col">
                 <div class="form-group">
                     <br>
@@ -17,7 +17,7 @@
                     <!--Tabla con requerimientos propios-->
                     <table class="table table-bordered text-left" id="misSolicitudes">
                         <thead>
-                            <tr class="table table-light">
+                            <tr class="table-light">
                                 <th>Codigo</th>
                                 <th>Tipo</th>
                                 <th>Categoria</th>
@@ -60,11 +60,8 @@
                                         {% endif %}
                                     </td>
                                     <td id="accion">
-                                        <button type="button"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAsignar{{requerimiento.id}}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
-                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-                                                <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
-                                            </svg>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAsignar{{ requerimiento.id }}">
+                                            <i class="bi bi-person-add"></i>
                                         </button>
                                         <!-- Modal Asignar -->
                                         <div class="modal fade" id="modalAsignar{{requerimiento.id}}" tabindex="-1" aria-labelledby="modalAsignarLabel{{requerimiento.id}}" aria-hidden="true">
@@ -133,7 +130,7 @@
         </div>
     </div>
 </main>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <!--Buscador de requerimientos-->
 <script>
     $(document).ready(function(){
