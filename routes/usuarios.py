@@ -12,7 +12,7 @@ def verUsuarios():
     # Si no esta iniciada la Sesion, lo redirigo al login
     if session.get('user_active') != True or session.get('user_tipo') != "Interno":
         return redirect(url_for('auth.indexLogin'))
-    ubicacion = "Usuarios"
+    ubicacion = "Gestionar"
     nombre = session.get('user_nombre')
     tipoUsuario = session.get('user_tipo')
     internos = UsuarioInterno.query.all()
